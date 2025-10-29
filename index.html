@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>プロ野球 順位表・対戦成績</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h2 {
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+            color: #333;
+        }
+
+        /* テーブル全体の設定 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* --- セ・リーグの色分け --- */
+        .central-league th {
+            background-color: #b0e0e6; /* 水色 */
+            color: #000;
+        }
+        /* --- パ・リーグの色分け --- */
+        .pacific-league th {
+            background-color: #ffb6c1; /* 薄いピンク */
+            color: #000;
+        }
+
+        /* 対戦成績テーブルのヘッダー色 */
+        .matchup-table th {
+            background-color: #e6e6e6 !important; /* 標準より少し濃いグレー */
+        }
+
+        /* 優勝チームの強調 */
+        .champion-row td {
+            font-weight: bold;
+            background-color: #fffacd; /* 薄い黄色 */
+        }
+
+        /* 更新日時のスタイル */
+        .update-time {
+            text-align: right;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: -20px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cl-standings">
+        <h2>セ・リーグ 順位表</h2>
+        <table class="central-league">
+            <thead>
+                <tr>
+                    <th>順位</th>
+                    <th>チーム名</th>
+                    <th>試合</th>
+                    <th>勝利</th>
+                    <th>敗戦</th>
+                    <th>引分</th>
+                    <th>勝率</th>
+                    <th>勝差</th>
+                    <th>残試合</th>
+                    <th>得点</th>
+                    <th>失点</th>
+                    <th>本塁打</th>
+                    <th>盗塁</th>
+                    <th>打率</th>
+                    <th>防御率</th>
+                    <th>失策</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="champion-row">
+                    <td>優勝</td>
+                    <td>阪神</td>
+                    <td>143</td>
+                    <td>85</td>
+                    <td>54</td>
+                    <td>4</td>
+                    <td>.612</td>
+                    <td>-</td>
+                    <td>0</td>
+                    <td>496</td>
+                    <td>352</td>
+                    <td>93</td>
+                    <td>100</td>
+                    <td>.245</td>
+                    <td>2.21</td>
+                    <td>57</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>DeNA</td>
+                    <td>143</td>
+                    <td>71</td>
+                    <td>66</td>
+                    <td>6</td>
+                    <td>.518</td>
+                    <td>13</td>
+                    <td>0</td>
+                    <td>510</td>
+                    <td>456</td>
+                    <td>110</td>
+                    <td>66</td>
+                    <td>.247</td>
+                    <td>2.94</td>
+                    <td>69</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>巨人</td>
+                    <td>143</td>
+                    <td>70</td>
+                    <td>69</td>
+                    <td>4</td>
+                    <td>.504</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>463</td>
+                    <td>461</td>
+                    <td>96</td>
+                    <td>53</td>
+                    <td>.250</td>
+                    <td>2.95</td>
+                    <td>78</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>中日</td>
+                    <td>143</td>
+                    <td>63</td>
+                    <td>78</td>
+                    <td>2</td>
+                    <td>.447</td>
+                    <td>8</td>
+                    <td>0</td>
+                    <td>403</td>
+                    <td>463</td>
+                    <td>83</td>
+                    <td>80</td>
+                    <td>.232</td>
+                    <td>2.97</td>
+                    <td>65</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>広島</td>
+                    <td>143</td>
+                    <td>59</td>
+                    <td>79</td>
+                    <td>5</td>
+                    <td>.428</td>
+                    <td>2.5</td>
+                    <td>0</td>
+                    <td>441</td>
+                    <td>497</td>
+                    <td>71</td>
+                    <td>57</td>
+                    <td>.246</td>
+                    <td>3.20</td>
+                    <td>75</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>ヤクルト</td>
+                    <td>143</td>
+                    <td>57</td>
+                    <td>79</td>
+                    <td>7</td>
+                    <td>.419</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>443</td>
+                    <td>564</td>
+                    <td>90</td>
+                    <td>61</td>
+                    <td>.234</td>
+                    <td>3.59</td>
+                    <td>72</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="update-time">更新日時: 2025/10/4 16:39</p>
+    </div>
+
+    <div id="cl-matchup">
+        <h2>セ・リーグ 対戦成績 <small>(勝利 - 敗戦(引分))</small></h2>
+        <table class="central-league matchup-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>阪神</th>
+                    <th>DeNA</th>
+                    <th>巨人</th>
+                    <th>中日</th>
+                    <th>広島</th>
+                    <th>ヤクルト</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>阪神</th>
+                    <td>-</td>
+                    <td>14 - 8(3)</td>
+                    <td>17 - 8(0)</td>
+                    <td>12 - 13(0)</td>
+                    <td>19 - 6(0)</td>
+                    <td>15 - 9(1)</td>
+                </tr>
+                <tr>
+                    <th>DeNA</th>
+                    <td>8 - 14(3)</td>
+                    <td>-</td>
+                    <td>9 - 15(1)</td>
+                    <td>17 - 8(0)</td>
+                    <td>14 - 10(1)</td>
+                    <td>16 - 8(1)</td>
+                </tr>
+                <tr>
+                    <th>巨人</th>
+                    <td>8 - 17(0)</td>
+                    <td>15 - 9(1)</td>
+                    <td>-</td>
+                    <td>14 - 11(0)</td>
+                    <td>11 - 13(1)</td>
+                    <td>16 - 8(1)</td>
+                </tr>
+                <tr>
+                    <th>中日</th>
+                    <td>13 - 12(0)</td>
+                    <td>8 - 17(0)</td>
+                    <td>11 - 14(0)</td>
+                    <td>-</td>
+                    <td>11 - 13(1)</td>
+                    <td>12 - 12(1)</td>
+                </tr>
+                <tr>
+                    <th>広島</th>
+                    <td>6 - 19(0)</td>
+                    <td>10 - 14(1)</td>
+                    <td>13 - 11(1)</td>
+                    <td>13 - 11(1)</td>
+                    <td>-</td>
+                    <td>8 - 15(2)</td>
+                </tr>
+                <tr>
+                    <th>ヤクルト</th>
+                    <td>9 - 15(1)</td>
+                    <td>8 - 16(1)</td>
+                    <td>8 - 16(1)</td>
+                    <td>12 - 12(1)</td>
+                    <td>15 - 8(2)</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="update-time">更新日時: 2025/10/4 16:39</p>
+    </div>
+
+    <div id="pl-standings">
+        <h2>パ・リーグ 順位表</h2>
+        <table class="pacific-league">
+            <thead>
+                <tr>
+                    <th>順位</th>
+                    <th>チーム名</th>
+                    <th>試合</th>
+                    <th>勝利</th>
+                    <th>敗戦</th>
+                    <th>引分</th>
+                    <th>勝率</th>
+                    <th>勝差</th>
+                    <th>残試合</th>
+                    <th>得点</th>
+                    <th>失点</th>
+                    <th>本塁打</th>
+                    <th>盗塁</th>
+                    <th>打率</th>
+                    <th>防御率</th>
+                    <th>失策</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="champion-row">
+                    <td>優勝</td>
+                    <td>ソフトバンク</td>
+                    <td>143</td>
+                    <td>87</td>
+                    <td>52</td>
+                    <td>4</td>
+                    <td>.626</td>
+                    <td>-</td>
+                    <td>0</td>
+                    <td>551</td>
+                    <td>389</td>
+                    <td>101</td>
+                    <td>98</td>
+                    <td>.257</td>
+                    <td>2.39</td>
+                    <td>77</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>日本ハム</td>
+                    <td>143</td>
+                    <td>83</td>
+                    <td>57</td>
+                    <td>3</td>
+                    <td>.593</td>
+                    <td>4.5</td>
+                    <td>0</td>
+                    <td>548</td>
+                    <td>409</td>
+                    <td>129</td>
+                    <td>79</td>
+                    <td>.248</td>
+                    <td>2.53</td>
+                    <td>73</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>オリックス</td>
+                    <td>143</td>
+                    <td>74</td>
+                    <td>66</td>
+                    <td>3</td>
+                    <td>.529</td>
+                    <td>9</td>
+                    <td>0</td>
+                    <td>502</td>
+                    <td>519</td>
+                    <td>100</td>
+                    <td>58</td>
+                    <td>.255</td>
+                    <td>3.37</td>
+                    <td>64</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>楽天</td>
+                    <td>143</td>
+                    <td>67</td>
+                    <td>74</td>
+                    <td>2</td>
+                    <td>.475</td>
+                    <td>7.5</td>
+                    <td>0</td>
+                    <td>446</td>
+                    <td>526</td>
+                    <td>70</td>
+                    <td>110</td>
+                    <td>.244</td>
+                    <td>3.37</td>
+                    <td>69</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>西武</td>
+                    <td>143</td>
+                    <td>63</td>
+                    <td>77</td>
+                    <td>3</td>
+                    <td>.450</td>
+                    <td>3.5</td>
+                    <td>0</td>
+                    <td>410</td>
+                    <td>465</td>
+                    <td>80</td>
+                    <td>91</td>
+                    <td>.232</td>
+                    <td>2.99</td>
+                    <td>65</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>ロッテ</td>
+                    <td>143</td>
+                    <td>56</td>
+                    <td>84</td>
+                    <td>3</td>
+                    <td>.400</td>
+                    <td>7</td>
+                    <td>0</td>
+                    <td>441</td>
+                    <td>553</td>
+                    <td>73</td>
+                    <td>68</td>
+                    <td>.241</td>
+                    <td>3.60</td>
+                    <td>67</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="update-time">更新日時: 2025/10/5 17:43</p>
+    </div>
+
+    <div id="pl-matchup">
+        <h2>パ・リーグ 対戦成績 <small>(勝利 - 敗戦(引分))</small></h2>
+        <table class="pacific-league matchup-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>ソフトバンク</th>
+                    <th>日本ハム</th>
+                    <th>オリックス</th>
+                    <th>楽天</th>
+                    <th>西武</th>
+                    <th>ロッテ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>ソフトバンク</th>
+                    <td>-</td>
+                    <td>13 - 12(0)</td>
+                    <td>16 - 7(2)</td>
+                    <td>14 - 11(0)</td>
+                    <td>17 - 8(0)</td>
+                    <td>15 - 9(1)</td>
+                </tr>
+                <tr>
+                    <th>日本ハム</th>
+                    <td>12 - 13(0)</td>
+                    <td>-</td>
+                    <td>12 - 12(1)</td>
+                    <td>16 - 8(1)</td>
+                    <td>15 - 9(1)</td>
+                    <td>17 - 8(0)</td>
+                </tr>
+                <tr>
+                    <th>オリックス</th>
+                    <td>7 - 16(2)</td>
+                    <td>12 - 12(1)</td>
+                    <td>-</td>
+                    <td>15 - 10(0)</td>
+                    <td>14 - 11(0)</td>
+                    <td>15 - 10(0)</td>
+                </tr>
+                <tr>
+                    <th>楽天</th>
+                    <td>11 - 14(0)</td>
+                    <td>8 - 16(1)</td>
+                    <td>10 - 15(0)</td>
+                    <td>-</td>
+                    <td>13 - 12(0)</td>
+                    <td>16 - 9(0)</td>
+                </tr>
+                <tr>
+                    <th>西武</th>
+                    <td>8 - 17(0)</td>
+                    <td>9 - 15(1)</td>
+                    <td>11 - 14(0)</td>
+                    <td>12 - 13(0)</td>
+                    <td>-</td>
+                    <td>13 - 10(2)</td>
+                </tr>
+                <tr>
+                    <th>ロッテ</th>
+                    <td>9 - 15(1)</td>
+                    <td>8 - 17(0)</td>
+                    <td>10 - 15(0)</td>
+                    <td>9 - 16(0)</td>
+                    <td>10 - 13(2)</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="update-time">更新日時: 2025/10/5 17:43</p>
+    </div>
+
+</body>
+</html>
